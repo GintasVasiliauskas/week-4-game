@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>my crystal game</title>
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/javascript/game.js" defer></script>
+
+</head>
+<body>
+
+<header class="container">
+  <div class="row">
+    <h1 class="col-lg-4">Crystals Collector!</h1>
+  </div>
+</header>
+<article class="container">
+  <div class="row">
+    <div class="col-lg-9 instructions">
+
+    <p>You will be given a random number at teh start of the game. <br>
+      There are four crystals below. By clicking on a crystal you will add a specific amount of points to your total score.<br>
+      You win the game by matching your total score to random number, you lose the game if your total score goes above teh random number <br>
+      The value of each crystal is hidden from you until you click on it. <br>
+    Each time when the game starts, the game will change the values of each crystal </p>
+    </div>
+  </div>
+</article>
+<div class="col-lg-12"></div>
+<div class="container">
+  <div class="row">
+    <div id="toGuess" class="col-lg-2"> </div>
+    <div id="score" class="col-lg-1">   </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div id="crystals">
+      <div id="crystal01" class="col-lg-2" >
+      <img src="https://vignette.wikia.nocookie.net/fantendo/images/3/31/Crystal.png/revision/latest?cb=20150419210156" alt="Crystal 1" id="crystal1">
+      </div>
+
+      <div id="crystal02"  class="col-lg-2">
+      <img src="https://vignette2.wikia.nocookie.net/thelorienlegacies/images/7/71/Green_Wind_Crystal.PNG/revision/latest?cb=20160610041134" alt="Crystal 2" id="crystal2">
+      </div>
+
+      <div id="crystal03"  class="col-lg-2">
+      <img src="https://vignette.wikia.nocookie.net/marvel-contestofchampions/images/1/1c/2-Star_Crystal.png/revision/latest?cb=20150825213642" alt="Crystal 3" id="crystal3">
+      </div>
+
+      <div id="crystal04" class="col-lg-2">
+      <img src="https://vignette.wikia.nocookie.net/finalfantasy/images/3/39/Serah%27s_Crystal.png/revision/latest?cb=20120506151042" alt="Crystal 4" id="crystal4">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div id="ccs" class="col-lg-3"> Your total score is: <br>
+      <span id="currentScore"></span>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- JAVASCRIPT  -->
+  <!-- ========================================= -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
+  <script type="text/javascript">
+
+  var wins = 0;
+  var losses = 0;
+  var numberOptions = [10, 5, 3, 7];
+  var shuffled=[];
+  var targetNumber, score, reset, value1, value2, value3, value4;
+
+
+  function shuffle(array) {
+      let counter = array.length;
+
+      // While there are elements in the array
+      while (counter > 0) {
+          // Pick a random index
+          let index = Math.floor(Math.random() * counter);
+
+          // Decrease counter by 1
+          counter--;
+
+          // And swap the last element with it
+          let temp = array[counter];
+          array[counter] = array[index];
+          array[index] = temp;
+      }
+
+      return array;
+  }
+
+
+
+function resetgame () {
+    shuffled=shuffle(numberOptions);
+    targetNumber= Math.floor(Math.random()*67+3);
+    score = 0;
+    value1 = shuffled[0];
+    value2 = shuffled[1];
+    value3 = shuffled[2];
+    value4 = shuffled[3];
+
+    $("#toGuess").text(targetNumber);
+    $("#score").text("Wins: " + wins +" Losses: " + losses);
+    $("#currentScore").text(score);
+    reset=false;
+  }
+
+
+
+
+
+function checkIfWin () {
+  $("#currentScore").text(score);
+  if (score<targetNumber) {
+    $("#score").text("Wins: " + wins +" Losses: " + losses);
+  } else if (score === targetNumber) {
+    wins++
+    $("#score").text("You WIN! Wins: " + wins +" Losses: " + losses);
+    reset = true;
+  } else if (score >= targetNumber) {
+    losses++
+    $("#score").text("You loose! Wins: " + wins +" Losses: " + losses);
+    reset = true;
+  }
+}
+
+
+
+
+
+
+
+resetgame();
+
+// if document needs to be reset (reset=true) then run resetgame() function only
+// else add value to score and check this value against target value
+  $("#crystal01").on("click", function() {
+    reset ? resetgame(): score += value1;checkIfWin();
+    // if (reset) {resetgame();}
+    // else {score += value1;checkIfWin();}
+  });
+
+  $("#crystal02").on("click", function() {
+    reset ? resetgame(): score += value2;checkIfWin();
+    // if (reset) {resetgame();}
+    // else {score += value2;checkIfWin();}
+  });
+
+  $("#crystal03").on("click", function() {
+    reset ? resetgame(): score += value3;checkIfWin();
+    // if (reset) {resetgame();}
+    // else {score += value3;checkIfWin();}
+  });
+
+  $("#crystal04").on("click", function() {
+    reset ? resetgame(): score += value4;checkIfWin();
+    // if (reset) {resetgame();}
+    // else {score += value4;checkIfWin();}
+  });
+
+  </script>
+</body>
+</html>
